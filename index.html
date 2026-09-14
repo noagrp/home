@@ -202,6 +202,22 @@
       </div>
       <div class="cards" id="games"></div>
     </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Others</h2>
+        <span id="othersCount"></span>
+      </div>
+      <div class="cards" id="others"></div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>中</h2>
+        <span id="zhCount"></span>
+      </div>
+      <div class="cards" id="zh"></div>
+    </section>
   </main>
 
   <script>
@@ -221,6 +237,8 @@
       {type:'app',name:'Mini Planner',icon:'📅',description:'A lightweight planner for organizing tasks, dates and everyday plans. Best for simple personal planning without the complexity of a full project-management tool.',url:'https://noagrp.github.io/mini.planner/'},
       {type:'app',name:'Pocket Trip Budget',icon:'🧳',description:'Plan and track travel spending in a compact and easy-to-use format. Useful for estimating trip costs and keeping a simple budget while traveling.',url:'https://noagrp.github.io/pocket-trip-budget/'},
       {type:'app',name:'NOAN Clock',icon:'🕐',description:'A clean browser-based clock for keeping time visible with minimal distraction. Suitable for desktops, tablets or spare screens used as a simple clock display.',url:'https://noagrp.github.io/noanclock/'},
+      {type:'app',name:'vCard Manager',icon:'📇',description:'Create and manage vCard contact information directly in the browser. Useful for preparing, editing and organizing portable contact files.',url:'https://noagrp.github.io/vcard.manager/'},
+
       {type:'game',name:'Panic Jet',icon:'✈️',description:'A fast browser arcade shooter where you dodge enemy fire, steal weapons, build shields and survive boss battles. Designed for quick play on desktop or mobile.',url:'https://noagrp.github.io/panicjet/'},
       {type:'game',name:'Tank Crawler',icon:'🛡️',description:'Explore random maze sectors in a combat tank, destroy varied enemies, collect salvage and upgrade your weapons and armor across an endless run.',url:'https://noagrp.github.io/tankcrawler/'},
       {type:'game',name:'Benny Jump',icon:'🐰',description:'A quick arcade jumping game built for short browser play sessions. Time your movement, keep climbing and push for a better run.',url:'https://noagrp.github.io/bennyjump/'},
@@ -230,26 +248,33 @@
       {type:'game',name:'Tic Tac Toe',icon:'❌',description:'A simple browser version of the classic three-in-a-row game. Fast to start and suitable for casual play on desktop or mobile.',url:'https://noagrp.github.io/tictactoe/'},
       {type:'game',name:'Roguemap Explorer',icon:'🗺️',description:'Explore a compact randomized grid where every move reveals more of the map and its hazards. Built for quick tactical exploration runs.',url:'https://noagrp.github.io/roguemap.explorer/'},
       {type:'game',name:'Sudokolic',icon:'🔢',description:'A browser Sudoku game for quick number puzzles and focused play. Designed with a clean layout that works comfortably on phones and desktops.',url:'https://noagrp.github.io/sudokolic/'},
-      {type:'game',name:'Maze Runner',icon:'🧭',description:'Navigate generated mazes and find your way through each layout. A simple maze challenge designed for quick browser sessions.',url:'https://noagrp.github.io/mazerunner/'}
+      {type:'game',name:'Maze Runner',icon:'🧭',description:'Navigate generated mazes and find your way through each layout. A simple maze challenge designed for quick browser sessions.',url:'https://noagrp.github.io/mazerunner/'},
+
+      {type:'other',name:'Solar System Sim',icon:'🪐',description:'Explore a browser-based solar system simulation and watch the planets move through their orbits in an interactive space view.',url:'https://noagrp.github.io/solarsystemsim/'},
+      {type:'other',name:'Noan Horror',icon:'👻',description:'An atmospheric browser horror experience built around exploration, tension and a darker interactive presentation.',url:'https://noagrp.github.io/noanhorror/'},
+      {type:'other',name:'Blake',icon:'◼️',description:'Open Blake, an experimental browser project with its own focused interactive experience.',url:'https://noagrp.github.io/blake/'},
+
+      {type:'zh',name:'万年历',icon:'📆',description:'查看公历、农历及常用日期信息的浏览器万年历，适合日常查日期与历法信息。',url:'https://noagrp.github.io/wannianli/'}
     ];
 
     const groups = {
-      app: document.getElementById('apps'),
-      game: document.getElementById('games')
+      app: {container: document.getElementById('apps'), count: document.getElementById('appsCount'), empty: 'Apps will appear here.'},
+      game: {container: document.getElementById('games'), count: document.getElementById('gamesCount'), empty: 'Games will appear here.'},
+      other: {container: document.getElementById('others'), count: document.getElementById('othersCount'), empty: 'Other projects will appear here.'},
+      zh: {container: document.getElementById('zh'), count: document.getElementById('zhCount'), empty: '内容会显示在这里。'}
     };
 
     function renderGroup(type) {
-      const container = groups[type];
+      const group = groups[type];
       const list = items.filter(item => item.type === type);
-      const count = document.getElementById(type === 'app' ? 'appsCount' : 'gamesCount');
-      count.textContent = list.length ? `${list.length} ${list.length === 1 ? 'item' : 'items'}` : '';
+      group.count.textContent = list.length ? `${list.length} ${list.length === 1 ? 'item' : 'items'}` : '';
 
       if (!list.length) {
-        container.innerHTML = `<div class="empty">${type === 'game' ? 'Games will appear here.' : 'Apps will appear here.'}</div>`;
+        group.container.innerHTML = `<div class="empty">${group.empty}</div>`;
         return;
       }
 
-      container.innerHTML = list.map(item => `
+      group.container.innerHTML = list.map(item => `
         <a class="card" href="${item.url}" aria-label="Open ${item.name}">
           <div class="card-copy">
             <div class="card-top">
@@ -262,8 +287,7 @@
       `).join('');
     }
 
-    renderGroup('app');
-    renderGroup('game');
+    Object.keys(groups).forEach(renderGroup);
   </script>
 </body>
 </html>
