@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f7f5">
+  <title>noagrp</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f7f7f5;
+      --surface: #ffffff;
+      --surface-hover: #f2f2ef;
+      --text: #171717;
+      --muted: #747474;
+      --border: #e4e4df;
+      --shadow: 0 8px 28px rgba(0, 0, 0, .05);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #101010;
+        --surface: #191919;
+        --surface-hover: #202020;
+        --text: #f3f3f0;
+        --muted: #a2a2a0;
+        --border: #2b2b2b;
+        --shadow: 0 8px 28px rgba(0, 0, 0, .18);
+      }
+    }
+
+    * { box-sizing: border-box; }
+
+    html { min-height: 100%; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      width: min(1220px, 100%);
+      margin: 0 auto;
+      padding: max(28px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) max(44px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left));
+    }
+
+    header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 38px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1;
+      letter-spacing: -.04em;
+      font-weight: 760;
+    }
+
+    section + section { margin-top: 42px; }
+
+    .section-title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: 19px;
+      letter-spacing: -.02em;
+    }
+
+    .section-title span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      min-width: 0;
+      min-height: 232px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 22px;
+      padding: 20px;
+      color: inherit;
+      text-decoration: none;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      background: var(--surface-hover);
+    }
+
+    .card:active { transform: scale(.985); }
+
+    .card:focus-visible {
+      outline: 3px solid currentColor;
+      outline-offset: 3px;
+    }
+
+    .card-top {
+      text-align: center;
+    }
+
+    .emoji {
+      display: block;
+      margin: 0 auto 12px;
+      font-size: 40px;
+      line-height: 1;
+      width: max-content;
+      filter: grayscale(1) saturate(0) brightness(.9);
+    }
+
+    .card-copy h3 {
+      margin: 0 0 14px;
+      font-size: 17px;
+      line-height: 1.25;
+      letter-spacing: -.015em;
+      text-align: center;
+    }
+
+    .card-copy p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+      text-align: left;
+    }
+
+    .empty {
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      border: 1px dashed var(--border);
+      border-radius: 20px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    @media (max-width: 560px) {
+      .page { padding-left: 14px; padding-right: 14px; }
+      header { margin-bottom: 30px; }
+      .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .card { min-height: 224px; padding: 16px; border-radius: 18px; }
+      .emoji { font-size: 34px; }
+      .card-copy h3 { font-size: 15px; }
+      .card-copy p { font-size: 12px; }
+    }
+
+    @media (max-width: 360px) {
+      .cards { grid-template-columns: 1fr; }
+      .card { min-height: 180px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .card { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <div class="brand">
+        <h1>noagrp</h1>
+      </div>
+    </header>
+
+    <section>
+      <div class="section-title">
+        <h2>Apps</h2>
+        <span id="appsCount"></span>
+      </div>
+      <div class="cards" id="apps"></div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Games</h2>
+        <span id="gamesCount"></span>
+      </div>
+      <div class="cards" id="games"></div>
+    </section>
+  </main>
+
+  <script>
+    const items = [
+      {type:'app',name:'Simple Editor',icon:'🖼️',description:'Edit photos directly in your browser with crop, filters, effects, background removal and other basic tools. Good for quick everyday image edits without installing desktop software.',url:'https://noagrp.github.io/simple.editor/'},
+      {type:'app',name:'Lite Editor',icon:'🎛️',description:'A lightweight image editor for fast adjustments and simple photo changes. Best when you want a quicker workflow and fewer controls than a full editor.',url:'https://noagrp.github.io/liteditor/'},
+      {type:'app',name:'Paint Canvas',icon:'🎨',description:'Draw, sketch and paint on a simple browser canvas using easy creative tools. Suitable for quick drawings, annotations and casual visual work.',url:'https://noagrp.github.io/paint.canvas/'},
+      {type:'app',name:'Imagengine',icon:'⚙️',description:'Process and transform images with practical browser-based tools. Useful when you need to modify image properties or prepare images for other uses.',url:'https://noagrp.github.io/imagengine/'},
+      {type:'app',name:'Image2URL',icon:'🔗',description:'Turn an image into a usable URL or web-friendly image reference. Handy for sharing images, embedding them online or using them in web projects.',url:'https://noagrp.github.io/image2url/'},
+      {type:'app',name:'ASCII Art',icon:'🔤',description:'Convert images or text into ASCII-style artwork made from characters. Good for retro graphics, text art and experimental visual output.',url:'https://noagrp.github.io/ascii.art/'},
+      {type:'app',name:'Mini Player',icon:'🎵',description:'A minimal music player for playing local audio files in a clean and compact interface. Suitable when you just want simple playback without extra clutter.',url:'https://noagrp.github.io/minimaplayer/'},
+      {type:'app',name:'PDF Edit',icon:'📄',description:'Open a PDF in your browser, add text, signatures and simple annotations, then print or save the finished file. Designed for quick document filling and signing.',url:'https://noagrp.github.io/simplepdfedit/'},
+      {type:'app',name:'Resume Builder',icon:'👤',description:'Build a clean resume by entering your personal, work and education details in a guided format. Suitable for quickly preparing a professional CV without manual layout work.',url:'https://noagrp.github.io/resume.builder/'},
+      {type:'app',name:'Mini Writter',icon:'✍️',description:'A simple distraction-free writing space for notes, drafts and longer text. Useful when you want to start writing immediately without complicated formatting tools.',url:'https://noagrp.github.io/mini.writter/'},
+      {type:'app',name:'QR Code Generator',icon:'🔳',description:'Create QR codes quickly from links, text or other information. Useful for sharing websites, contact information and simple digital shortcuts.',url:'https://noagrp.github.io/miniqrcodegenerator/'},
+      {type:'app',name:'JSON Converter',icon:'🔄',description:'Convert and work with JSON data in a simpler readable format. Useful for developers, quick data checks and lightweight format conversion tasks.',url:'https://noagrp.github.io/json_converter/'},
+      {type:'app',name:'Mini Planner',icon:'📅',description:'A lightweight planner for organizing tasks, dates and everyday plans. Best for simple personal planning without the complexity of a full project-management tool.',url:'https://noagrp.github.io/mini.planner/'},
+      {type:'app',name:'Pocket Trip',icon:'🧳',description:'Plan and track travel spending in a compact and easy-to-use format. Useful for estimating trip costs and keeping a simple budget while traveling.',url:'https://noagrp.github.io/pocket-trip-budget/'},
+      {type:'app',name:'NOAN Clock',icon:'🕐',description:'A clean browser-based clock for keeping time visible with minimal distraction. Suitable for desktops, tablets or spare screens used as a simple clock display.',url:'https://noagrp.github.io/noanclock/'}
+    ];
+
+    const groups = {
+      app: document.getElementById('apps'),
+      game: document.getElementById('games')
+    };
+
+    function renderGroup(type) {
+      const container = groups[type];
+      const list = items.filter(item => item.type === type);
+      const count = document.getElementById(type === 'app' ? 'appsCount' : 'gamesCount');
+      count.textContent = list.length ? `${list.length} ${list.length === 1 ? 'item' : 'items'}` : '';
+
+      if (!list.length) {
+        container.innerHTML = `<div class="empty">${type === 'game' ? 'Games will appear here.' : 'Apps will appear here.'}</div>`;
+        return;
+      }
+
+      container.innerHTML = list.map(item => `
+        <a class="card" href="${item.url}" aria-label="Open ${item.name}">
+          <div class="card-copy">
+            <div class="card-top">
+              <span class="emoji" aria-hidden="true">${item.icon}</span>
+              <h3>${item.name}</h3>
+            </div>
+            <p>${item.description}</p>
+          </div>
+        </a>
+      `).join('');
+    }
+
+    renderGroup('app');
+    renderGroup('game');
+  </script>
+</body>
+</html>
