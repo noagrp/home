@@ -4,6 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#f7f7f5">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="noagrp">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <title>noagrp</title>
   <style>
     :root { color-scheme: light dark; --bg:#f7f7f5; --surface:#fff; --surface-hover:#f2f2ef; --text:#171717; --muted:#747474; --border:#e4e4df; --shadow:0 8px 28px rgba(0,0,0,.05); }
@@ -61,6 +68,7 @@
     const groups={app:{container:document.getElementById('apps'),count:document.getElementById('appsCount'),empty:'Apps will appear here.'},game:{container:document.getElementById('games'),count:document.getElementById('gamesCount'),empty:'Games will appear here.'},other:{container:document.getElementById('others'),count:document.getElementById('othersCount'),empty:'Other projects will appear here.'},zh:{container:document.getElementById('zh'),count:document.getElementById('zhCount'),empty:'内容会显示在这里。'}};
     function renderGroup(type){const group=groups[type],list=items.filter(item=>item.type===type);group.count.textContent=list.length?`${list.length} ${list.length===1?'item':'items'}`:'';if(!list.length){group.container.innerHTML=`<div class="empty">${group.empty}</div>`;return}group.container.innerHTML=list.map(item=>`<a class="card" href="${item.url}" aria-label="Open ${item.name}"><div class="card-copy"><div class="card-top"><span class="emoji" aria-hidden="true">${item.icon}</span><h3>${item.name}</h3></div><p>${item.description}</p></div></a>`).join('')}
     Object.keys(groups).forEach(renderGroup);
+    if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'))}
   </script>
 </body>
 </html>
