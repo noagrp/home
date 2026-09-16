@@ -1,4 +1,4 @@
-const CACHE='noagrp-home-v2';
+const CACHE='noagrp-home-v3';
 const SHELL=['./','./index.html','./manifest.webmanifest','./favicon-32x32.png','./apple-touch-icon.png','./icon-192.png','./icon-512.png'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(SHELL)));self.skipWaiting()});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))));self.clients.claim()});
